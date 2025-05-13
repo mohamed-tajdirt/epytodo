@@ -26,5 +26,5 @@ app.use('/', todos)
 app.use(notFound);
 
 app.listen(port, () => {
-  console.log(`Server is running on http://${process.env.MYSQL_HOST}:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
