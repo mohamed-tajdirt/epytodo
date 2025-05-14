@@ -8,7 +8,7 @@ const getCurrentUser = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length === 0)
             return res.status(404).json({msg: "User not found."});
-        return res.status(200).json(results);
+        return res.status(200).json(results[0]);
     });
 };
 
@@ -44,7 +44,7 @@ const getUserByEmail = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length === 0)
             return res.status(404).json({msg: "User not found."});
-        return res.status(200).json(results);
+        return res.status(200).json(results[0]);
     });
 };
 
@@ -64,7 +64,14 @@ const updateUser = (req, res) => { // can update an another id ?
         db.query("SELECT * FROM user WHERE id = ?", [userId], (err, user) => {
             if (err)
                 return res.status(500).json({ msg: 'Internal server error' });
-            return res.status(200).json(user[0]);
+            return res.status(200).json({
+                id: user[0].id,
+                email: user[0].email,
+                password: user[0].password,
+                created_at: user[0].created_at,
+                firstname: user[0].firstname,
+                name: user[0].name
+            });
         });
     });
 };
