@@ -16,7 +16,16 @@ const getTodosById = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length === 0)
             return res.status(404).json({msg: "Task not found."});
-        return res.status(200).json(results[0]);
+
+        return res.status(200).json({
+                id: results[0].id,
+                title: results[0].title,
+                description: results[0].description,
+                created_at: results[0].created_at,
+                due_time: results[0].due_time,
+                user_id: results[0].user_id,
+                status: results[0].status
+        });
     });
 };
 
@@ -28,13 +37,22 @@ const postTodos = (req, res) => {
         INSERT INTO todo (title, description, due_time, status, user_id, created_at)
         VALUES (?, ?, ?, ?, ?, NOW())`;
     db.query(sql, [title, description, due_time, status, user_id], (err, results) => { // user_id need to be the token or one the body ?
-        if (err)
+        if (err) {
             return res.status(500).json({ msg: 'Internal server error' });
+        }
         const insert_id = results.insertId;
         db.query('SELECT * FROM todo WHERE id = ?', [insert_id], (err, results) => {
             if (err)
                 return res.status(500).json({ msg: 'Internal server error' });
-            return res.status(201).json(results[0]);
+            return res.status(200).json({
+                id: results[0].id,
+                title: results[0].title,
+                description: results[0].description,
+                created_at: results[0].created_at,
+                due_time: results[0].due_time,
+                user_id: results[0].user_id,
+                status: results[0].status
+            });
         });
     });
 };

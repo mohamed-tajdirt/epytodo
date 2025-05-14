@@ -8,7 +8,14 @@ const getCurrentUser = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length === 0)
             return res.status(404).json({msg: "User not found."});
-        return res.status(200).json(results[0]);
+        return res.status(200).json({
+                id: results[0].id,
+                email: results[0].email,
+                password: results[0].password,
+                created_at: results[0].created_at,
+                firstname: results[0].firstname,
+                name: results[0].name
+        });
     });
 };
 
@@ -16,7 +23,7 @@ const getUserTodos = (req, res) => {
     const user_id = req.user_id
     db.query("SELECT * FROM todo WHERE user_id = ?", [user_id], (err, results) => {
         if (err)
-            return res.status(500).json({ msg: 'Internal server error' });
+            return res.status(500).json({ msg: 'Internal server error' }); 
         return res.status(200).json(results);
     });
 };
@@ -30,7 +37,14 @@ const getUserById = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length === 0)
             return res.status(404).json({msg: "User not found."});
-        return res.status(200).json(results[0]);
+        return res.status(200).json({
+                id: results[0].id,
+                email: results[0].email,
+                password: results[0].password,
+                created_at: results[0].created_at,
+                firstname: results[0].firstname,
+                name: results[0].name
+        });
     });
 };
 
