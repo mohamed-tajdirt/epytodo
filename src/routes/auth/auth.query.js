@@ -34,7 +34,7 @@ const loginUser = (req, res) => {
             return res.status(500).json({ msg: 'Internal server error' });
         const user = results[0];
         if (!user || !bcrypt.compareSync(password, user.password))
-            return res.status(400).json({ msg: 'Invalid Credentials' });
+            return res.status(401).json({ msg: 'Invalid Credentials' });
         const token = jwt.sign({ id: user.id }, process.env.SECRET);
         return res.status(200).json({ token });
     });
