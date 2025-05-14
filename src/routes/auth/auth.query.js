@@ -11,7 +11,7 @@ const registerUser = (req, res) => {
         if (err)
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.length > 0)
-            return res.status(400).json({ msg: 'Account already exists' });
+            return res.status(409).json({ msg: 'Account already exists' });
         const hashedPassword = bcrypt.hashSync(password, 10);
         db.query(
             'INSERT INTO user (email, password, name, firstname, created_at) VALUES (?, ?, ?, ?, NOW())',

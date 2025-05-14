@@ -81,5 +81,4 @@ const deleteUser = (req, res) => { // can delete an another id ?
     });
 };
 
-
 module.exports = { getCurrentUser, getUserTodos, updateUser, deleteUser, getUserById, getUserByEmail };
