@@ -1,5 +1,7 @@
 const db = require('../../config/db');
 const bcrypt = require('bcryptjs');
+const formatDate = require('../../utils/formatDate')
+
 
 const getCurrentUser = (req, res) => {
     const user_id = req.user_id
@@ -12,7 +14,7 @@ const getCurrentUser = (req, res) => {
                 id: results[0].id,
                 email: results[0].email,
                 password: results[0].password,
-                created_at: results[0].created_at,
+                created_at: formatDate(results[0].created_at),
                 firstname: results[0].firstname,
                 name: results[0].name
         });
@@ -23,8 +25,17 @@ const getUserTodos = (req, res) => {
     const user_id = req.user_id
     db.query("SELECT * FROM todo WHERE user_id = ?", [user_id], (err, results) => {
         if (err)
-            return res.status(500).json({ msg: 'Internal server error' }); 
-        return res.status(200).json(results);
+            return res.status(500).json({ msg: 'Internal server error' });
+        const formattedTodos = results.map(todo => ({
+            id: todo.id,
+            title: todo.title,
+            description: todo.description,
+            created_at: formatDate(todo.created_at),
+            due_time: formatDate(todo.due_time),
+            user_id: todo.user_id,
+            status: todo.status
+        }));
+        return res.status(200).json(formattedTodos);
     });
 };
 
@@ -47,7 +58,7 @@ const getUserinfo = (req, res) => {
                     id: result[0].id,
                     email: result[0].email,
                     password: result[0].password,
-                    created_at: result[0].created_at,
+                    created_at: formatDate(result[0].created_at),
                     firstname: result[0].firstname,
                     name: result[0].name
                 });
@@ -57,18 +68,18 @@ const getUserinfo = (req, res) => {
             id: results[0].id,
             email: results[0].email,
             password: results[0].password,
-            created_at: results[0].created_at,
+            created_at: formatDate(results[0].created_at),
             firstname: results[0].firstname,
             name: results[0].name
         });
     });
 };
 
-const updateUser = (req, res) => { // can update an another id ?
+const updateUser = (req, res) => {
     const userId = req.params.id;
     const { email, password, name, firstname } = req.body;
 
-    if (!email || !password || !name || !firstname) // optional body line ?
+    if (!email || !password || !name || !firstname)
         return res.status(400).json({ msg: 'Bad parameter' });
     const query = `UPDATE user SET email = ?, password = ?, name = ?, firstname = ?  WHERE id = ?`;
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -84,7 +95,7 @@ const updateUser = (req, res) => { // can update an another id ?
                 id: user[0].id,
                 email: user[0].email,
                 password: user[0].password,
-                created_at: user[0].created_at,
+                created_at: formatDate(user[0].created_at),
                 firstname: user[0].firstname,
                 name: user[0].name
             });
