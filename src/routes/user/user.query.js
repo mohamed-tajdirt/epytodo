@@ -90,16 +90,19 @@ const updateUser = (req, res) => { // can update an another id ?
     });
 };
 
-const deleteUser = (req, res) => { // can delete an another id ?
+const deleteUser = (req, res) => {
     const userId = req.params.id;
-
-    db.query('DELETE FROM user WHERE id = ?', [userId], (err, result) => {
+    db.query("DELETE FROM todo WHERE user_id = ?", [userId], (err, result) => {
         if (err)
             return res.status(500).json({ msg: 'Internal server error' });
-        if (result.affectedRows === 0)
-            return res.status(404).json({ msg: 'User not found.' });
-        return res.status(200).json({ msg: `Successfully deleted record number: ${userId}` });
-    });
+        db.query('DELETE FROM user WHERE id = ?', [userId], (err, result) => {
+            if (err)
+                return res.status(500).json({ msg: 'Internal server error' });
+            if (result.affectedRows === 0)
+                return res.status(404).json({ msg: 'User not found.' });
+            return res.status(200).json({ msg: `Successfully deleted record number: ${userId}` });
+        });
+    })
 };
 
 module.exports = { getCurrentUser, getUserTodos, updateUser, deleteUser, getUserById, getUserByEmail };

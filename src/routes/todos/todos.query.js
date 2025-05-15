@@ -44,7 +44,7 @@ const postTodos = (req, res) => {
         db.query('SELECT * FROM todo WHERE id = ?', [insert_id], (err, results) => {
             if (err)
                 return res.status(500).json({ msg: 'Internal server error' });
-            return res.status(200).json({
+            return res.status(201).json({
                 id: results[0].id,
                 title: results[0].title,
                 description: results[0].description,
