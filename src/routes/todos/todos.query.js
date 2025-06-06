@@ -45,7 +45,7 @@ const postTodos = (req, res) => {
     const sql = `
         INSERT INTO todo (title, description, due_time, status, user_id, created_at)
         VALUES (?, ?, ?, ?, ?, NOW())`;
-    db.query(sql, [title, description, due_time, status, user_id], (err, results) => { // user_id need to be the token or one the body ?
+    db.query(sql, [title, description, due_time, status, user_id], (err, results) => {
         if (err) {
             return res.status(500).json({ msg: 'Internal server error' });
         }
@@ -72,7 +72,7 @@ const updateTodos = (req, res) => {
     if (!title || !description || !due_time || !status || !user_id)
         return res.status(400).json({ msg: 'Bad parameter' });
     const query = `UPDATE todo SET title = ?, description = ?, due_time = ?, status = ?, user_id = ?  WHERE id = ?`;
-    db.query(query, [title, description, due_time, status, user_id, task_id], (err, results) => { // user_id need to be the token or one the body ?
+    db.query(query, [title, description, due_time, status, user_id, task_id], (err, results) => {
         if (err)
             return res.status(500).json({ msg: 'Internal server error' });
         if (results.affectedRows === 0)
@@ -95,7 +95,7 @@ const updateTodos = (req, res) => {
 
 const deleteTodos = (req, res) => {
     const task_id = req.params.id;
-    db.query('DELETE FROM todo WHERE id = ?', [task_id], (err, result) => { // check if the todo was create by token's user_id ?
+    db.query('DELETE FROM todo WHERE id = ?', [task_id], (err, result) => {
         if (err)
             return res.status(500).json({ msg: 'Internal server error' });
         if (result.affectedRows === 0)

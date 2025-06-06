@@ -91,7 +91,7 @@ const updateUser = (req, res) => {
         db.query("SELECT * FROM user WHERE id = ?", [userId], (err, user) => {
             if (err)
                 return res.status(500).json({ msg: 'Internal server error' });
-            return res.status(200).json({
+            return res.status(201).json({
                 id: user[0].id,
                 email: user[0].email,
                 password: user[0].password,

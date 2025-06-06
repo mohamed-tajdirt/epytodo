@@ -7,7 +7,11 @@
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["backend", "web", "express"],
+  "keywords": [
+    "backend",
+    "web",
+    "express"
+  ],
   "author": "Mohamed Tajdirt",
   "license": "ISC",
   "type": "commonjs",
@@ -17,6 +21,8 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mysql2": "^3.14.1"
+    "mysql2": "^3.14.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   }
 }
